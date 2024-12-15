@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
-
-function App() {
+const list = [
+  {
+    name: 'Apple',
+    id: '1'
+  },
+  {
+    name: 'Orange',
+    id: '2'
+  },
+  {
+    name: 'Banana',
+    id: '3'
+  },
+  {
+    name: 'Lemon',
+    id: '4'
+  },
+]
+export function App() {
+  const [sortedList, setSortedList] = useState(list);
+  const [isAscending, setIsAscending] = useState(true);
+  const toggleSort = () => {
+    const sorted = [...sortedList].sort((a, b) => {
+      if (isAscending) {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+    setSortedList(sorted);
+    setIsAscending(!isAscending);
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button type="button" onClick={toggleSort}>
+        Toggle
+      </button>
+     {
+      sortedList?.map((item, index) => 
+        <div key={item.id}>
+          {item.name}
+          <input type="text" />
+        </div>
+      )
+     }
     </div>
   );
 }
-
-export default App;
